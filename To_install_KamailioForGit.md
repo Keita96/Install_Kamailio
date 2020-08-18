@@ -47,22 +47,23 @@ La première étape consiste à générer des fichiers de configuration de compi
 L'étape suivante consiste à activer le module MySQL. Editez le fichier modules.lst :
 
     
-nano -w src/modules.lst
-  # or
-  vim src/modules.lst
+        nano -w src/modules.lst
+   or
+         vim src/modules.lst
   
 Ajoutez db_mysql à la variable include_modules .
 
-  include_modules= db_mysql 
+        include_modules= db_mysql 
   
   Enregistrez le module.lst et quittez.
 REMARQUE : il s'agit d'un mécanisme pour activer les modules qui ne sont pas compilés par défaut, 
 tels que lcr, dialplan, presence - ajoutez les modules à la variable include_modules dans le fichier modules.lst ,
 comme:
-include_modules= db_mysql dialplan
+        include_modules= db_mysql dialplan
 
 # Compiler Kamailio
 Une fois que vous avez ajouté le module mysql à la liste des modules activés, vous pouvez compiler Kamailio:
+      
       make all
       
 # Installez Kamailio
@@ -73,7 +74,7 @@ Lorsque la compilation est prête, installez Kamailio avec la commande suivante:
 # Quoi et où a été installé
 Les binaires et les scripts exécutables ont été installés dans:
 
-/usr/local/sbin
+        /usr/local/sbin
 
 Ceux-ci sont:
 kamailio - serveur SIP Kamailio
@@ -84,8 +85,8 @@ Pour pouvoir utiliser les binaires à partir de la ligne de commande, assurez-vo
 est défini dans PATHla variable d'environnement. Vous pouvez vérifier cela avec echo $PATH. Sinon et que vous utilisez bash, 
 ouvrez /root/.bash_profile et à la fin ajoutez
 
- PATH=$PATH:/usr/local/sbin
-  export PATH
+         PATH=$PATH:/usr/local/sbin
+        export PATH
   
 Les modules Kamailio sont installés dans:
 
@@ -99,15 +100,18 @@ La documentation et les fichiers readme sont installés dans:
     
 Les pages de manuel sont installées dans:
 
-  /usr/local/share/man/man5/
-  /usr/local/share/man/man8/
+        /usr/local/share/man/man5/
+        /usr/local/share/man/man8/
   
 Le fichier de configuration a été installé dans:
-  /usr/local/etc/kamailio/kamailio.cfg
+
+        /usr/local/etc/kamailio/kamailio.cfg
   
-#Créer une base de données MySQL
+# Créer une base de données MySQL
+
 Pour créer la MySQLbase de données, vous devez utiliser le script de configuration de la base de données. 
 Tout d' abord modifier kamctlrc fichier pour définir le type de serveur de base de données: 
+
     nano -w /usr/local/etc/kamailio/kamctlrc
     
  Localisez la DBENGINEvariable et définissez-la sur MYSQL:
@@ -147,12 +151,14 @@ des valeurs par défaut fournies avec les sources.
 Modifier le fichier de configuration
 Pour répondre à vos exigences pour la plate-forme VoIP, vous devez éditer le fichier de configuration.
 
-  /usr/local/etc/kamailio/kamailio.cfg
+        /usr/local/etc/kamailio/kamailio.cfg
+  
 Suivez les instructions dans les commentaires pour activer l'utilisation de MySQL.
 En gros, vous devez ajouter plusieurs lignes en haut du fichier de configuration, comme:
-    #!define WITH_MYSQL
-    #!define WITH_AUTH
-    #!define WITH_USRLOCDB
+
+        #!define WITH_MYSQL
+        #!define WITH_AUTH
+         #!define WITH_USRLOCDB
     
    
 Si vous avez changé le mot de passe de l' kamailioutilisateur de MySQL, 
@@ -160,23 +166,25 @@ vous devez mettre à jour la valeur des db_urlparamètres.
 
 Vous pouvez parcourir kamailio.cfg en ligne sur le référentiel GIT.https://github.com/kamailio/kamailio/blob/master/etc/kamailio.cfg
 
-Exécuter Kamailio
+# Exécuter Kamailio
+
 Il existe quelques variantes pour démarrer / arrêter / redémarrer Kamailio, 
 celles recommandées étant via un init.dscript ou une systemdunité, 
 selon ce que le système d'exploitation Debian est configuré pour utiliser.
 
-# Script init.d
+        Script init.d
 Pour installer le init.d script, exécutez-le dans le répertoire du code source de Kamailio:
 
-make install-initd-debian
+        make install-initd-debian
 Suivez toutes les instructions qui peuvent être imprimées par la commande ci-dessus.
 
 Ensuite, vous pouvez démarrer / arrêter Kamailio à l'aide des commandes suivantes:
 
-  /etc/init.d/kamailio start
-  /etc/init.d/kamailio stop
+        /etc/init.d/kamailio start
+         /etc/init.d/kamailio stop
   
   United Systemd
+  
 Pour installer l' systemdunité, exécutez dans le répertoire du code source Kamailio:
 
 make install-systemd-debian
@@ -184,62 +192,70 @@ Suivez toutes les instructions qui peuvent être imprimées par la commande ci-d
 
 Ensuite, vous pouvez démarrer / arrêter Kamailio à l'aide des commandes suivantes:
 
-  systemctl start kamailio
-  systemctl stop kamailio
+        systemctl start kamailio
+        systemctl stop kamailio
   
   Kamctl
-Vous devrez peut-être modifier, modifier /usr/local/etc/kamailio/kamctlrcet définir les attributs PID_FILEet STARTOPTIONS.
+Vous devrez peut-être modifier, modifier /usr/local/etc/kamailio/kamctlrc et définir les attributs PID_FILEet STARTOPTIONS.
 
 Vous pouvez utiliser:
 
-kamctl start
-kamctl stop
+        kamctl start
+        kamctl stop
 Ligne de commande
 Kamailio peut être démarré à partir de la ligne de commande en exécutant le binaire avec des paramètres spécifiques. 
 Par exemple:
 
-démarrer Kamailio
-/usr/local/sbin/kamailio -P /var/run/kamailio/kamailio.pid -m 128 -M 12
-arrêter Kamailio
-killall kamailio
-# or
-kill -TERM $(cat /var/run/kamailio/kamailio.pid)  
+# démarrer Kamailio
+        /usr/local/sbin/kamailio -P /var/run/kamailio/kamailio.pid -m 128 -M 12
+ # arrêter Kamailio
+ 
+            killall kamailio
+or        
+        kill -TERM $(cat /var/run/kamailio/kamailio.pid)  
 
 
-Prêt à basculer
+# Prêt à basculer
 Maintenant, tout est en place. Vous pouvez démarrer le service VoIP, créer de nouveaux comptes et configurer les téléphones.
 
-Un nouveau compte peut être ajouté à l'aide de l' kamctloutil via:
+Un nouveau compte peut être ajouté à l'aide de l' kamctl outil via:
 
-  kamctl add username password
+    kamctl add username password
 
-Si SIP_DOMAINn'a pas été défini dans le kamctlrcfichier, utilisez l'une des options suivantes.
+Si SIP_DOMAIN n'a pas été défini dans le kamctlrc fichier, utilisez l'une des options suivantes.
 
 exécuter dans le terminal:
-  export SIP_DOMAIN=mysipserver.com
-  kamctl add username password
+
+      export SIP_DOMAIN=mysipserver.com
+     kamctl add username password
+     
 ou éditez /usr/local/etc/kamailio/kamctlrcet ajoutez:
-  SIP_DOMAIN=mysipserver.com
+
+        SIP_DOMAIN=mysipserver.com
+        
 puis exécutez à nouveau kamctl add ...comme ci-dessus.
 
 ou donnez le nom d'utilisateur avec le domaine en kamctl add ...paramètre:
-  kamctl add username@mysipserver.com password
 
-Au lieu de cela, mysipserver.comil faut lui donner le vrai domaine du service SIP ou l'adresse IP de Kamailio.
+        kamctl add username@mysipserver.com password
+
+Au lieu de cela, mysipserver.com il faut lui donner le vrai domaine du service SIP ou l'adresse IP de Kamailio.
 
 
 
-Entretien
-Le processus de maintenance est très simple pour le moment. Vous devez être utilisateur rootet exécuter les commandes suivantes:
+# Entretien
+Le processus de maintenance est très simple pour le moment. Vous devez être utilisateur root et exécuter les commandes suivantes:
 
   cd /usr/local/src/kamailio-5.2/kamailio
-  git pull origin
-  make all
-  make install
-  /etc/init.d/kamailio restart
+  
+                git pull origin
+                 make all
+                make install
+                /etc/init.d/kamailio restart
+                
 Vous avez maintenant le dernier développement de Kamailio en cours d'exécution sur votre système.
 
-Quand mettre à jour
+# Quand mettre à jour
 Les notifications concernant les commits GIT sont envoyées à la liste de diffusion: sr-dev@lists.kamailio.org . 
 Chaque notification de validation contient la référence à la branche où la validation a été effectuée. Si le message de validation contient les lignes:
 
