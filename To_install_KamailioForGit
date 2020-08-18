@@ -227,3 +227,23 @@ ou donnez le nom d'utilisateur avec le domaine en kamctl add ...paramètre:
 
 Au lieu de cela, mysipserver.comil faut lui donner le vrai domaine du service SIP ou l'adresse IP de Kamailio.
 
+
+
+Entretien
+Le processus de maintenance est très simple pour le moment. Vous devez être utilisateur rootet exécuter les commandes suivantes:
+
+  cd /usr/local/src/kamailio-5.2/kamailio
+  git pull origin
+  make all
+  make install
+  /etc/init.d/kamailio restart
+Vous avez maintenant le dernier développement de Kamailio en cours d'exécution sur votre système.
+
+Quand mettre à jour
+Les notifications concernant les commits GIT sont envoyées à la liste de diffusion: sr-dev@lists.kamailio.org . 
+Chaque notification de validation contient la référence à la branche où la validation a été effectuée. Si le message de validation contient les lignes:
+
+Module: kamailio
+Branch: 5.2
+puis une mise à jour a été faite à la version de développement de Kamailio 
+et elle sera disponible pour le GIT public en un rien de temps.
