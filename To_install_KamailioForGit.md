@@ -68,6 +68,7 @@ Une fois que vous avez ajouté le module mysql à la liste des modules activés,
       
 # Installez Kamailio
 Lorsque la compilation est prête, installez Kamailio avec la commande suivante:
+
       make install
       
       
