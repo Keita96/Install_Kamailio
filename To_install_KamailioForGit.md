@@ -27,7 +27,7 @@ L'alternative consiste à définir des chemins différents par l' intermédiaire
 
 # Serveur MySQL ou MariaDB
 
-        apt-get install mysql-serverou apt-get install default-mysql-server
+        apt-get install mysql-server ou apt-get install default-mysql-server
         
 # Obtenir des sources de GIT
 Tout d'abord, vous devez créer un répertoire sur le système de fichiers où les sources seront stockées.
