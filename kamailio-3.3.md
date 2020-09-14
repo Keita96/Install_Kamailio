@@ -13,23 +13,35 @@ To be able to follow the guidelines from this document you need root access.
 The following packages are required before proceeding to the next steps.
 
 git client: 
-    apt-get install git-core 
+
+                          apt-get install git-core 
+                
 gcc and g++ compilers: 
-      *apt-get install gcc g++*
+
+                apt-get install gcc g++
 flex :
-    *apt-get install flex*
+
+                 *apt-get install flex*
+                 
 bison :
-  *apt-get install bison*
+                    
+                    apt-get install bison
+                  
 libmysqlclient-dev : 
-    apt-get install libmysqlclient-dev (or: apt install default-libmysqlclient-dev)
+
+                   apt-get install libmysqlclient-dev (or: apt install default-libmysqlclient-dev)
     
-make and autoconf 
-    :apt-get install make autoconf
+make and autoconf :
+
+        apt-get install make autoconf
+    
 if you want to enable more modules, some of them require extra libraries:
-        libssl - apt-get install libssl-dev
-        libcurl - apt-get install libcurl4-openssl-dev
-        libxml2 - apt-get install libxml2-dev
-        libpcre3 - apt-get install libpcre3-dev
+
+
+                        libssl - apt-get install libssl-dev
+                        libcurl - apt-get install libcurl4-openssl-dev
+                        libxml2 - apt-get install libxml2-dev
+                        libpcre3 - apt-get install libpcre3-dev
 
 
 # MySQL Or MariaDB Server
@@ -43,6 +55,7 @@ First of all, you have to create a directory on the file system where the source
 
           mkdir -p /usr/local/src/kamailio-5.3
           cd /usr/local/src/kamailio-5.3
+          
 Download the sources from GIT using the following commands.
 
             git clone --depth 1 --no-single-branch https://github.com/kamailio/kamailio kamailio
@@ -54,30 +67,30 @@ Note: if your git client version does not support --no-single-branch command lin
 Tuning Makefiles
 The first step is to generate build config files.
 
-          make cfg
+                    make cfg
           
 Next step is to enable the MySQL module. Edit modules.lst file:
 
-          nano -w src/modules.lst
-          # or
-          vim src/modules.lst
-        Add db_mysql to the variable include_modules.
+                  nano -w src/modules.lst
+                  # or
+                  vim src/modules.lst
+                Add db_mysql to the variable include_modules.
 
-          include_modules= db_mysql
+                  include_modules= db_mysql
                
  Save the modules.lst and exit.
 
 NOTE: this is one mechanism to enable modules which are not compiled by default, such as lcr, dialplan, presence -- add the modules to include_modules variable inside the modules.lst file, like:
 
-          include_modules= db_mysql dialplan
+                     include_modules= db_mysql dialplan
 
 Alternative is to set include_modules variable with the list of extra modules to be included for compilation when building Makefile cfg:
 
-        make include_modules="db_mysql dialplan" cfg
+                make include_modules="db_mysql dialplan" cfg
         
 NOTE: If you want to install everything in one directory (so you can delete all installed files at once), say /usr/local/kamailio-5.3, then set PREFIX variable to the install path in make cfg ... command:
 
-      make PREFIX="/usr/local/kamailio-5.3" include_modules="db_mysql dialplan" cfg
+              make PREFIX="/usr/local/kamailio-5.3" include_modules="db_mysql dialplan" cfg
       
 More hints about Makefile system at:
 
@@ -86,20 +99,22 @@ kamailio.org/wiki/devel/makefile-system
 Compile Kamailio
 Once you added the mysql module to the list of enabled modules, you can compile Kamailio:
 
-         make all
+                   make all
          
 You can get full compile flags output using:
 
-   make Q=0 all
+   
+                make Q=0 all
   
 Install Kamailio
 When the compilation is ready, install Kamailio with the following command:
 
-  make install
+              make install
+  
 What And Where Was Installed
 The binaries and executable scripts were installed in:
 
-       /usr/local/sbin
+              /usr/local/sbin
 These are:
 
     kamailio - Kamailio SIP server
@@ -109,33 +124,38 @@ These are:
 
 To be able to use the binaries from command line, make sure that /usr/local/sbin is set in PATH environment variable. You can check that with echo $PATH. If not and you are using bash, open /root/.bash_profile and at the end add:
 
-  PATH=$PATH:/usr/local/sbin
-  export PATH
+          PATH=$PATH:/usr/local/sbin
+          export PATH
+          
 Kamailio modules are installed in:
 
-  /usr/local/lib/kamailio/modules/
+         /usr/local/lib/kamailio/modules/
+  
 Note: On 64 bit systems, /usr/local/lib64 may be used.
 
 The documentation and readme files are installed in:
 
-  /usr/local/share/doc/kamailio/
+            /usr/local/share/doc/kamailio/
+            
 The man pages are installed in:
 
-  /usr/local/share/man/man5/
-  /usr/local/share/man/man8/
+              /usr/local/share/man/man5/
+              /usr/local/share/man/man8/
+              
 The configuration file was installed in:
 
-  /usr/local/etc/kamailio/kamailio.cfg
+          /usr/local/etc/kamailio/kamailio.cfg
+  
 NOTE:: In case you set the PREFIX variable in make cfg ... command, then replace /usr/local in all paths above with the value of PREFIX in order to locate the files installed.
 
 Create MySQL Database
 To create the MySQL database, you have to use the database setup script. First edit kamctlrc file to set the database server type:
 
-     nano -w /usr/local/etc/kamailio/kamctlrc
+             nano -w /usr/local/etc/kamailio/kamctlrc
   
 Locate DBENGINE variable and set it to MYSQL:
 
-        DBENGINE=MYSQL
+                   DBENGINE=MYSQL
         
 You can change other values in kamctlrc file, at least it is recommended to change the default passwords for the users to be created to connect to database.
 
@@ -143,7 +163,7 @@ Note that the existing line with DBENGINE or other attributes may be commented, 
 
 Once you are done updating kamctlrc file, run the script to create the database used by Kamailio:
 
-         /usr/local/sbin/kamdbctl create
+                 /usr/local/sbin/kamdbctl create
          
 You can call this script without any parameter to get some help for the usage. You will be asked for the domain name Kamailio is going to serve (e.g., mysipserver.com) and the password of the root MySQL user. The script will create a database named kamailio containing the tables required by Kamailio. You can change the default settings in the kamctlrc file mentioned above.
 
@@ -158,7 +178,7 @@ IMPORTANT: do change the passwords for these two users to something different th
 Edit Configuration File
 To fit your requirements for the VoIP platform, you have to edit the configuration file.
 
-       /usr/local/etc/kamailio/kamailio.cfg
+         /usr/local/etc/kamailio/kamailio.cfg
   
 Follow the instruction in the comments to enable usage of MySQL. Basically you have to add several lines at the top of config file, like:
 
@@ -204,11 +224,14 @@ Command Line
 Kamailio can be started from command line by executing the binary with specific parameters. For example:
 
 start Kamailio
+
       /usr/local/sbin/kamailio -P /var/run/kamailio/kamailio.pid -m 128 -M 12
       stop Kamailio
       killall kamailio
  or
-    kill -TERM $(cat /var/run/kamailio/kamailio.pid)
+ 
+     kill -TERM $(cat /var/run/kamailio/kamailio.pid)
+    
 Ready To Rock
 Now everything is in place. You can start the VoIP service, creating new accounts and setting the phones.
 
@@ -219,10 +242,11 @@ A new account can be added using kamctl tool via:
 If SIP_DOMAIN was not set in kamctlrc file do one of the following option.
 
 run in terminal:
-  export SIP_DOMAIN=mysipserver.com
-  kamctl add username password
-or edit /usr/local/etc/kamailio/kamctlrc and add:
-  SIP_DOMAIN=mysipserver.com
+              export SIP_DOMAIN=mysipserver.com
+              kamctl add username password
+            or edit /usr/local/etc/kamailio/kamctlrc and add:
+              SIP_DOMAIN=mysipserver.com
+              
 and then run again kamctl add ... as above.
 
 or give the username with domain in kamctl add ... parameter:
@@ -233,11 +257,12 @@ Instead of mysipserver.com it has to be given the real domain for the SIP servic
 Maintenance
 The maintenance process is very simple right now. You have to be user root and execute following commands:
 
-  cd /usr/local/src/kamailio-5.3/kamailio
-  git pull origin
-  make all
-  make install
-  /etc/init.d/kamailio restart
+                  cd /usr/local/src/kamailio-5.3/kamailio
+                  git pull origin
+                  make all
+                  make install
+                  /etc/init.d/kamailio restart
+                  
 Now you have the latest Kamailio v5.3.x running on your system.
 
 When To Update
