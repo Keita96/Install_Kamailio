@@ -12,3 +12,8 @@ https://lmtools.com/node/236
   ###to install rtpproxy
   
 https://computingforgeeks.com/how-to-install-rtpproxy-from-source-on-ubuntu-linux/
+  
+  ### pour installer les prerequis pour la compilation
+  
+  sudo apt-get install build-essential git cmake
+
