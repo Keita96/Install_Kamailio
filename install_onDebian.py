@@ -7,3 +7,8 @@ apt update && apt install kamailio kamailio-mysql-modules kamailio-presence-modu
 ###to gerate key 
 
 https://lmtools.com/node/236
+  
+  
+  ###to install rtpproxy
+  
+https://computingforgeeks.com/how-to-install-rtpproxy-from-source-on-ubuntu-linux/
